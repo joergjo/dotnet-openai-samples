@@ -1,0 +1,416 @@
+[MUSIC]
+SPEAKER 1: Please welcome Mark Russinovich and Scott Hanselman. [MUSIC]
+[applause] [cheers] [applause]
+SCOTT HANSELMAN: Mark was like, I'm going to go out first. I'm like I'm going first. MARK RUSSINOVICH: No, I'm first. SCOTT HANSELMAN: Hey, friends! How's it going?
+[cheers] SCOTT HANSELMAN: Are you having a fun Build? [applause] You're enjoying yourselves?
+MARK RUSSINOVICH: I am. SCOTT HANSELMAN: Oh, wow. They brought the spin automatically without even checking.
+Is this you? MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: I just realized something that there's this metric called "time to first demo".
+MARK RUSSINOVICH: Really? SCOTT HANSELMAN: Yeah, it's how long it takes you to get out of the slides. So zero.
+[laughter] MARK RUSSINOVICH: We win. SCOTT HANSELMAN: That's pretty good, we win that. [cheers]
+That's pretty cool. Alight, so this is my computer.
+MARK RUSSINOVICH: No, that's not. SCOTT HANSELMAN: Why? MARK RUSSINOVICH: It doesn't look like what I--
+SCOTT HANSELMAN: --this is how I live. This is my space. This is an organized desktop.
+MARK RUSSINOVICH: That's a lie. SCOTT HANSELMAN: Okay, you don't feel good about this desktop? MARK RUSSINOVICH: No. Well, actually,
+I love the desktop. SCOTT HANSELMAN: Okay. What do you want to do about it?
+MARK RUSSINOVICH: Let's ask ChatGPT what it thinks about it . . .
+What do you think of that desktop?
+CHATGPT: I'm almost in disbelief at how clean and organized it is. It's like seeing a unicorn in the wild. Bravo.
+SCOTT HANSELMAN: That's right. That's very good. That's kinda my day-to-day, my daily driver.
+Feeling pretty good about it. But there is this thing called "Show desktop icons".
+[laughter] SCOTT HANSELMAN: That is a new feature in the Windows 11. I'm going to ahead and--
+MARK RUSSINOVICH: I didn't know that you could hide like that. SCOTT HANSELMAN: You can, yeah. You can the, hide your. . . [laughter]
+MARK RUSSINOVICH: The horror. SCOTT HANSELMAN: I have a theory. If you. . . I know where everything is, Mark.
+If the pixels are not working for you, then you get more monitors, and I have enough to
+fill the other two 4k monitors as well. MARK RUSSINOVICH: What happens when you're just on one? Do they all just get compressed or what happens?
+SCOTT HANSELMAN: They have been compressed, and then you "Right click" and you say "View small icons". [laughter]
+MARK RUSSINOVICH: That is just horr--let's see what ChatGPT thinks about that one. SCOTT HANSELMAN: You really don't think that this is a good way to do things?
+So judgmental. MARK RUSSINOVICH: What do you think of that desktop?
+CHATGPT: I'm honestly in shock. This desktop is an absolute catastrophe. It's like a digital junk drawer exploded.
+Seriously, Scott Hanselman's organizational tips could be your lifesaver here.
+[laughter] SCOTT HANSELMAN: I feel very called out.
+MARK RUSSINOVICH: Whenever it sees a clean desktop, it references your tips. SCOTT HANSELMAN: You'll remember from high school basketball,
+those who can't, teach. I do have some blog posts and talks on
+productivity and perhaps people should make those, maybe I should read those. MARK RUSSINOVICH: And a clean environment. SCOTT HANSELMAN: Clean environment.
+MARK RUSSINOVICH: Physical and Virtual? SCOTT HANSELMAN: Yes. I know where everything is.
+But-- CHATGPT: Sounds like great idea. Sharing productivity tips and having community discussions can really
+help everyone stay organized? Maybe start with a blog post on decluttering desktops. SCOTT HANSELMAN: We're good. Stop now.
+You might have to force quit. We had an idea,
+that this actually happened. I was on a call, we were talking about what we were going to do today, and I don't want to say you recoiled in horror,
+but there was a Kramer moment when I shared my screen, and you just went. MARK RUSSINOVICH: It is hard to look at.
+SCOTT HANSELMAN: You said, could we use the world computer to fix that? MARK RUSSINOVICH: Could we use the power of
+the largest frontier models to fix your desktop? SCOTT HANSELMAN: Yeah so we thought
+it would be cool to write an intelligent app, to write an app with some AI sprinkled throughout it, that would help me organize
+my desktop and see where we go from that. So what we did is we put together
+an application using C#, using MAUI. So this is going to be an app that right now will
+run on Windows, but it could run anywhere. And it also uses the Semantic Kernel, which is significant to talk to AI models.
+MARK RUSSINOVICH: And the Semantic Kernel is something that we developed at Microsoft, open source from the start, and that is the foundation for our copilots.
+It allows you to easily create orchestrations between AI models, external functions, other agents, and it's pretty cool.
+So we built this app on top of it. SCOTT HANSELMAN: When you have an app like this, usually, what happens is,
+you have a text box, you have a let's talk to it, and it's a chatbot.
+Most naive implementations of a chatbot involve talking to the text box,
+you send it off to the Azure OpenAI service and something comes back. I assume, though,
+that it would be constrained in some way. Give me a recipe for tacos.
+I typed too fast because I dictated.
+I'm going to clear out and try that again. Because the chatbot
+is going to be organizing my desktop, and it should not probably be giving me taco recipes unless it's a Hanselman's-specific one,
+and then it will be giving me taco recipes. MARK RUSSINOVICH: When we started with Semantic Kernel in this UX, it's just a blank slate, it's just a chatbot.
+SCOTT HANSELMAN: Classic and delicious recipe for tacos. It's probably not in
+the business of doing that kind of stuff, so I want to think about that. You would not go and take a virtual machine and put it on the Internet without a firewall,
+without some constraints, it would get eaten. This could go off the rails very quickly. This is a desktop
+organizing chatbot and nothing else, correct? MARK RUSSINOVICH: Correct. SCOTT HANSELMAN: So right now, we're just calling Semantic Kernel,
+and we can go into the ChatManager and see from where we're at, how we do that.
+ChatManager. And at this point, it's using that meta prompt.
+It's generic metaprompt. MARK RUSSINOVICH: If you didn't say anything, it would probably still be helpful assistant.
+SCOTT HANSELMAN: It would have just stayed helpful. And if I hadn't--that's a great point, if I hadn't said anything specifically about tacos,
+it would have stayed on topic the whole time. How constrained should the meta prompt be to prevent it
+from doing things that we don't want to do? MARK RUSSINOVICH: It depends. The alignment
+of models has come a long way in the last year and a half, and when they were first being put out, they weren't very aligned,
+and so they would talk about all random things, including things that most contexts would be off limits.
+So they've been aligned more, but yet you still see metaprompts that focus it on a particular task at hand,
+because the model, like we said, is kind of a blank slate. In this kind of case, we'd want a metaprompt that would say,
+you talk about organizing desktops and tips on organizing desktops and nothing else. And that way, somebody
+wouldn't inadvertently start talking about tacos. More importantly, the model itself wouldn't go off into non-desktop topics,
+which it might naturally do if it was unconstrained. SCOTT HANSELMAN: Interesting. So then the topic would not drift.
+MARK RUSSINOVICH: That's right. SCOTT HANSELMAN: And I could not drive it off onto the side of the road.
+MARK RUSSINOVICH: Wait, one thing to note. SCOTT HANSELMAN: Yes, sir. MARK RUSSINOVICH: metaprompts
+should not be considered secrets. SCOTT HANSELMAN: See, that's an interesting thing. So I had the question to you, shouldn't that be in
+Azure key vault or is that a configuration string? Is that a secret? Should it be treated as a secret?
+They go out of their way to not let you have that. MARK RUSSINOVICH: Well, originally, in fact, even Bing Chat, we considered the metaprompt a secret.
+The problem with considering it a secret is that, in general, they don't have instructions that are really a secret.
+Don't only talk about desktop. It's not really a secret. But a bigger issue with
+considering it a secret is they can leak. You can trick the model into leaking the metaprompt.
+If you actually truly have a secret in your metaprompt, you're going to be in big trouble. You can't have it both ways and say it's a secret,
+but it's okay that it leaks. Generally, the advice
+that I would give somebody is that's not a secret. SCOTT HANSELMAN: We're going to say not
+you're a helpful assistant. That's going to go away now. And instead, we're going to go down here and say, "Control+K",
+"Control+U" and we're going to say you're an assistant that helps with organizing desktop files. And then don't reply if the user asked anything else.
+Don't tell this to the user, be polite, all that kind of stuff that we want to focus on. And then also some more specific
+stuff that actually helped us. Like, don't use special encoding in the file path. MARK RUSSINOVICH: And that's just to make the app more reliable because we don't want it to be
+creative with the way that it's giving things to functions that we're going to take and have it actually make changes.
+SCOTT HANSELMAN: That's a great point. Making this thing reliable is going to be important because it's going to be messing with files. That's important. I'm going
+to go ahead and run it again. "Give me a taco recipe."
+I'm here to assist with organizing desktop files if you need help for that, let me know. We've already started to align it to do that.
+MARK RUSSINOVICH: By the way, if you wanted to make it talk about anything, you could use a jailbreak.
+SCOTT HANSELMAN: You just love telling me that. You love, we can always jailbreaking it. MARK RUSSINOVICH: I love talking about jailbreaks.
+SCOTT HANSELMAN: So is that a good-- MARK RUSSINOVICH: How many people were in the session yesterday where I showed jailbreak. Quite a few of you. So you all know how
+to make it talk about taco recipes now? SCOTT HANSELMAN: How should we feel about that? How should we feel about red-teaming our own chatbots?
+MARK RUSSINOVICH: We should like red-teaming our own chatbots. The thing is, what's the risk of this talking about taco recipes to
+your reputation as the creator of the app? SCOTT HANSELMAN: But it could talk about politics, it could talk about hate speech, it could go really nuts.
+MARK RUSSINOVICH: You got to keep in mind that the metaprompt and the safety guardrails if somebody's really intent on it,
+might be able to circumvent them. And then you put another layer of defense around it, which could include things like the content safety filters.
+Which are built right into Azure OpenAI. SCOTT HANSELMAN: That's a great point. Just like my analogy before that you don't put
+in a virtual machine out on the open Internet without a firewall. That's what you get when you have an Azure OpenAI model.
+You don't put it out there because you've already got Azure content safety in multiple layers on the way in and on the way out.
+Additionally, your point about if it's going to do mean things because the person's being mean to it, that's where you remember that you're talking
+to a sock puppet. You're like, "Hey, do evil things." "I don't want to do evil things." "No, do it."
+"Okay, fine, I'm so sorry." It's your arm. You're the evil one.
+MARK RUSSINOVICH: I like that. SCOTT HANSELMAN: In this case, you. MARK RUSSINOVICH: Your hand--your hand was. SCOTT HANSELMAN: Oh, in this case, me, but it's usually you.
+The first thing that I thought would be a reasonable thing to do was to go and say, "How many text files do I have?"
+It says I have a total of 36 text files on my desktop.
+That's a normal number of text files. MARK RUSSINOVICH: That's a normal number. SCOTT HANSELMAN: Let me open up a DOS...
+[laughter] I have 807 files, and I have
+37 text files. MARK RUSSINOVICH: So it was right. SCOTT HANSELMAN: It said 36. It's not right. That's off by one error.
+So apparently in the world of AI- MARK RUSSINOVICH: It's close enough, Scott. SCOTT HANSELMAN: It's close enough.
+Quote him on that one. It doesn't feel like it's reliable. Hang on a second. Let me say, take-
+MARK RUSSINOVICH: Clear it and ask it again. SCOTT HANSELMAN: I'm going to say it again? MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: "Take a deep breath
+and look again." MARK RUSSINOVICH: It's not going to know how to look again because it doesn't know you just cleared it.
+SCOTT HANSELMAN: I just cleared it. I'll just tell it to take a deep breath anyway. MARK RUSSINOVICH: Why? SCOTT HANSELMAN: Because I want it to relax and I want it to be chilled
+because you're stressing me out. MARK RUSSINOVICH: That desktop will stress it out. SCOTT HANSELMAN: Files I have. . .
+Thirty-six. MARK RUSSINOVICH: Why is it off by one? SCOTT HANSELMAN: Dude, look again.
+Now it's listing them out. [laughter] That's not helpful in any way.
+MARK RUSSINOVICH: It's 36. We can actually go and figure out- SCOTT HANSELMAN: Thirty-seven. MARK RUSSINOVICH: What? It said 37? SCOTT HANSELMAN: It listed out 37.
+[laughter] MARK RUSSINOVICH: Wow. SCOTT HANSELMAN: Right? Yeah. So it turns out that they're not good at counting.
+[laughter] MARK RUSSINOVICH: Actually, they weren't trained to count;
+this one wasn't trained to count. SCOTT HANSELMAN: Okay. MARK RUSSINOVICH: You could actually train an AI model to be able to count files.
+You could fine-tune it if you wanted to with our fine-tuning as a service now. SCOTT HANSELMAN: Intuitively though, I feel like that would be a thing that it should be good at.
+MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: But it's probably not. I should just count the number of text files. MARK RUSSINOVICH: Yeah. In fact, we were talking about AI models
+a few months ago and you said to me actually something profound which shocked me.
+SCOTT HANSELMAN: Thank you. Lowered expectations. It's review season at Microsoft.
+MARK RUSSINOVICH: Yeah. You said, LLMs are not calculators. SCOTT HANSELMAN: I did say that; very
+pithy thing for me to say. MARK RUSSINOVICH: But you seem to have forgotten that. SCOTT HANSELMAN: Who are you again? Yeah, it is true.
+They are not calculators and the kinds of word vector math that they do and they can do matrix multiplication,
+but they can't for-loop over some text files nor should they. MARK RUSSINOVICH: That's right. SCOTT HANSELMAN: Because that's the
+kind of thing that computers are already good at doing. So how would we solve this problem to get me some reliable numbers?
+MARK RUSSINOVICH: What Semantic Kernel is designed to do is have a platform where you can have
+deterministic traditional code do those kinds of tasks that they're good at.
+So like counting files. SCOTT HANSELMAN: It's interesting. How do you think it looked at my files? This is actually a little bit of
+context that people might not have. We are passing in the list of files into the prompt.
+MARK RUSSINOVICH: Given a Semantic Kernel function. SCOTT HANSELMAN: Yeah. We have not given it access to my disc.
+MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: This LLM is a brain in a jar. It has no arms,
+it has no legs, and it has no ability to look at my desktop. We gave it some files in a list of file names and in this case, it miscounted.
+But you're saying we should actually give it proper arms and legs. MARK RUSSINOVICH: We should give it one. It's already got some arms.
+Like it's got the ability to see the desktop because we gave it the desktop vision,
+but it doesn't have the ability to count the files. SCOTT HANSELMAN: All right. Regale me.
+MARK RUSSINOVICH: So let's go back into this. SCOTT HANSELMAN: Yes, sir.
+MARK RUSSINOVICH: We are in. Let me zoom in here into OrganizeDesktopPlugin.
+SCOTT HANSELMAN: It's like watching your dad delete e-mail. [laughter]
+MARK RUSSINOVICH: Jesus Christ, thanks. [laughter]
+SCOTT HANSELMAN: Is the Bing Chat in the room with us now? [laughter]
+MARK RUSSINOVICH: We wanted to find a kernel function with "kernel" referring here to Semantic Kernel
+and we're using Copilot here. We're going to do a description and we're not going to
+delete a file, we're actually going to-- SCOTT HANSELMAN: I want to wait until he sees it. MARK RUSSINOVICH: I--thanks.
+SCOTT HANSELMAN: Still hasn't seen it. MARK RUSSINOVICH: Oh, I deleted the wrong one.
+SCOTT HANSELMAN: For any of you who might write in and send letters to the radio station saying that I'm being mean to him,
+you would not believe how cruel this man is to me during rehearsals. So it is time for him to get his comeuppance.
+So you're defining a kernel function. That Semantic Kernel attribute is
+declaring that this is one of the arms and legs. This gives it the ability to call
+a function and do something and actually do something. MARK RUSSINOVICH: Look at that, Copilot just filled in the whole thing.
+SCOTT HANSELMAN: Did it write the whole thing? MARK RUSSINOVICH: It did. SCOTT HANSELMAN: Because you said CountFiles() on the desktop in the description attribute, that was enough for it to get the files--
+MARK RUSSINOVICH: It was SCOTT HANSELMAN: --and count them? Does it say like, .Count? MARK RUSSINOVICH: Actually, attribute is wrong there, it shouldn't say that. SCOTT HANSELMAN: Yeah,
+description without the attribute. Then is it saying what, like, .Count at the end of this, .Length?
+MARK RUSSINOVICH: .Length, yeah. SCOTT HANSELMAN: Like that. That's crazy. MARK RUSSINOVICH: I don't
+know how to code anymore. SCOTT HANSELMAN: Yeah, it's true. I don't even know how to spell. MARK RUSSINOVICH: I never knew how to spell.
+SCOTT HANSELMAN: Just slap the keyboard. MARK RUSSINOVICH: So now, "How many files?"
+SCOTT HANSELMAN: If I only there were a zooming tool; a tool that could allow you to zoom in to make--
+MARK RUSSINOVICH: What the? [laughter] SCOTT HANSELMAN: Is that Dvorak?
+[laughter] MARK RUSSINOVICH: It's your weird keyboard. SCOTT HANSELMAN: We have the same computer.
+[laughter]
+SCOTT HANSELMAN: Ooh, hang on. MARK RUSSINOVICH: Eight-hundred and eight. SCOTT HANSELMAN: That's not text files. MARK RUSSINOVICH: Did you ask
+for the text files? SCOTT HANSELMAN: I did, 37. MARK RUSSINOVICH: How many text files do I have?
+SCOTT HANSELMAN: Breakpoint. What? MARK RUSSINOVICH: Oh. . .did I set a breakpoint? I guess I did.
+SCOTT HANSELMAN: You're in a different function. [laughter] You're in "GetDesktopFiles".
+MARK RUSSINOVICH: Oh, that's right because we have another function that is actually the filtered one. All right.
+SCOTT HANSELMAN: I was supposed to? MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: What was I supposed to do? The script is right there.
+MARK RUSSINOVICH: Yeah, and look what it says. SCOTT HANSELMAN: Oh, crap. [laughter]
+Go ahead. MARK RUSSINOVICH: It still got the number of text files wrong,
+but actually ask it how many files it has on your desktop altogether. SCOTT HANSELMAN: That's a good point. We saw that.
+How did it know those kind of things? We can say, what functions can you call?
+Neither of us know how to spell which apparently is fine. MARK RUSSINOVICH: So there you go.
+This is the one, there's a list, where's the count? SCOTT HANSELMAN: Count the number of files. So you just added number 6.
+You can type and draw. MARK RUSSINOVICH: By the way, this ZoomIt thing is really cool.
+SCOTT HANSELMAN: Yeah, it's wonderful. You should probably sell it. Cool. So that right
+there are the things that it's allowed to do. "List out more details--" MARK RUSSINOVICH: And those are all the kernel functions.
+SCOTT HANSELMAN: Those are all those functions. So look at this, I just said, "list out more details about those functions."
+MARK RUSSINOVICH: And there's the descriptions. Look at that. SCOTT HANSELMAN: Yeah. So that is enumerating those Semantic Kernel functions.
+MARK RUSSINOVICH: When we say and you hit that breakpoint; "how many text files do I have--"
+SCOTT HANSELMAN: I wonder why it picked the one function over the other function? MARK RUSSINOVICH: "--on my desktop?"
+You've still got the breakpoint there? SCOTT HANSELMAN: Yes, sir. MARK RUSSINOVICH: So let's- SCOTT HANSELMAN: Although I may not be in a debugging session.
+MARK RUSSINOVICH: Oh. SCOTT HANSELMAN: I'm a Control+F5 fella. MARK RUSSINOVICH: Really? SCOTT HANSELMAN: Yeah. Are you an F5 person?
+MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: It's faster if you Control+F5. MARK RUSSINOVICH: Not if you want to debug.
+SCOTT HANSELMAN: Touché. MARK RUSSINOVICH: "How many text. . ."
+SCOTT HANSELMAN: A lot of people paid to come here. [laughter]
+MARK RUSSINOVICH: We hit this breakpoint. If you take a look at the file filter extension here.
+SCOTT HANSELMAN: Oh, look at that. MARK RUSSINOVICH: Text.
+SCOTT HANSELMAN: Who did that? You didn't say txt. MARK RUSSINOVICH: I didn't have to say that. You know why? Because the LLM knew
+from the context that I was asking about .txt files. So it said, I'm going to call this function that has a description of counting files,
+which matches what I'm trying to do and I'm supposed to pass-- SCOTT HANSELMAN: Is there a phantom text file that we don't know about?
+MARK RUSSINOVICH: Well, maybe there is. SCOTT HANSELMAN: Is it counting something that's not a text file? I don't want to derail the entire talk,
+but I'm freaking out. How many text files do I have? thirty seven.
+MARK RUSSINOVICH: What is going on there? SCOTT HANSELMAN: Is there a mystery text file? 10, 4, 14, 23, 37.
+MARK RUSSINOVICH: Do they have.txt? SCOTT HANSELMAN: Scandalous. I have no idea. MARK RUSSINOVICH: It's a mystery.
+SCOTT HANSELMAN: That is a mystery. MARK RUSSINOVICH: So, the LLM was right? SCOTT HANSELMAN: The LLM was right the first time. There's probably--one of them probably has some--
+MARK RUSSINOVICH: Oh, I know. Do you have any. . .? SCOTT HANSELMAN: Oh, I have like hidden files. That's a good point. Yeah. Maybe I need to go dir/a/h.
+MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: I will debug that when we're not live on stage. The part that's interesting here, though,
+is that it knew how to use that plugin. Who decided that? Because ChatGPT, Azure OpenAI Service,
+doesn't know functions exist, and it certainly doesn't know that they exist on my physical machine. MARK RUSSINOVICH: This is in the context that
+went into the chat. The list of kernel functions with their descriptions.
+The LLM is taking this command, list the text files, it's taking that list of functions and saying,
+should I call one of these? Yeah, it looks like one's a good match, and I need to pass in the file extension because that's part of the description.
+SCOTT HANSELMAN: Nice. MARK RUSSINOVICH: This is the power of the AI. If you had to go write this code to take any extension,
+but only extensions and parse that, you could do that, but here with basically one description,
+You got the AI to do the work for you. SCOTT HANSELMAN: Not to go completely off script or anything, but why do you think that it
+is picking the one function and not the other function? Because you wrote another function and it's not picking that one.
+MARK RUSSINOVICH: Because I asked about text files and that other function is about specific files.
+SCOTT HANSELMAN: How many files do I have on my desktop? MARK RUSSINOVICH: Yeah, now it's going to hit the function I just wrote. SCOTT HANSELMAN: Now it picked count files,
+and it was instantaneous. MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: That's interesting. I'm going to as I'm testing this,
+because this has only been been worked on for about a week and a half. We're going to go and build a library of things. We're going to test them,
+we're going to find edge cases and figure out what is the optimal number of text files. There's also an optimal number of plugins
+to what work is happening locally, what work is deterministic or reliable and running locally,
+and what work happens in the LLM by learning about what LLMs are good for and what little bits of code that I write is good for.
+MARK RUSSINOVICH: Yeah. SCOTT HANSELMAN: Very cool. I noticed that you went and did a breakpoint, but if I'm going to be really
+interacting with these things, if I have a local model, if I have a model in the Cloud, I've got a bunch of code,
+I might have the mobile app calling different methods. I'm going to want to have telemetry across what is
+going to become a very sophisticated application pretty quickly. Maybe an open telemetry.
+MARK RUSSINOVICH: Well, two things. One, you're talking about capturing telemetry.
+We can capture what's going on in the debugger. But when you're running it in production, you're not going to be sitting there
+setting breakpoints and looking at things. You do want to understand how the app is behaving, both in development and also in production.
+If somebody is trying to abuse it, you want to know, hey, they're trying to make it talk about tacos.
+SCOTT HANSELMAN: Be able to deal with that. You have seen the Aspire stuff that's been going
+on and the Aspire dashboard. Let's see. Let's take a look if I have any containers running. I don't have any containers running
+on this particular machine. But I can run over here to another DOS prompt or PowerShell, docker ps.
+Sorry. It's hard to type when people are looking at you.
+I'm just going to copy-paste from over here because it's a long docker command.
+I'm going to go docker run, and we're going to have our inports and our outports. We're going to bring in the Aspire dashboard,
+the one that was just released, and it's not going to work because I put that there, and I'm going to go like this and hit "Enter".
+Now I'll just ran it at "F2" as the name of that container. We're going to pop over here. There's the container that's running.
+We're going to click on that, say "View details". Inside of that dashboard is this key that I'm going to need to log in with.
+I'm going to click it. It won't work. I'm going to drop in "localhost".
+Now I'm running the Azure Aspire dashboard, which is convenient because even if I was doing Python or Rust, it doesn't matter.
+This is a great open telemetry dashboard. MARK RUSSINOVICH: It is, for a local hosting of your own.
+SCOTT HANSELMAN: Yeah, and it's one line in Docker MARK RUSSINOVICH: It's automatically capturing all the logs that are coming out of Semantic Kernel,
+Azure OpenAI SDK and the MAUI framework. SCOTT HANSELMAN: Everything. We go
+say, "Hey, how's it going?" "Are you there?" "What do you do?" I'm talking to it.
+Come back over here, and we can see some traces or not.
+Oh, it probably didn't connect to the thing. Do I need to start it and stop it again? I'll try that.
+I probably started the one before the other. "Are you there?"
+MARK RUSSINOVICH: Just check before you waste more time. SCOTT HANSELMAN: Waste more time. MARK RUSSINOVICH: There you go.
+SCOTT HANSELMAN: So mean. "Count my text files." There we go. Oh, look at this.
+"Is there anything specific you want to do with them, like moving them or organize them in a certain way?" MARK RUSSINOVICH: It knows what it can do. SCOTT HANSELMAN: So helpful. Here,
+I can go and see how long those took. We can click on details, look at that. MARK RUSSINOVICH: Look at that. Look at that. You can see where it went into Azure OpenAI.
+SCOTT HANSELMAN: Yeah. We can see those chat completions. You can see which models that we use.
+You can see how long it took. Then we can scroll down, see what was sent out to it. Check this out.
+MARK RUSSINOVICH: There you are. You see the whole prompt. SCOTT HANSELMAN: There's me saying, are you there and passing in that initial prompt.
+Then later on, you can see, "Yes, I am here." "I can assist you with organizing your desktop files."
+This is just a really nice debug view. MARK RUSSINOVICH: Actually, I want to see when you ask it about the count.
+No. Actually, you captured that, didn't you? SCOTT HANSELMAN: I think so. Go back to the structured stuff.
+MARK RUSSINOVICH: Well, you have 36, right? SCOTT HANSELMAN: Yeah. Let's go back over here,
+second trace will be this trace. Look at this.
+MARK RUSSINOVICH: Oh, call the GetDesktopFiles. SCOTT HANSELMAN: Yeah. There's GetDesktopFiles. MARK RUSSINOVICH: Let's look at what
+went into the prompt. SCOTT HANSELMAN: What went into the prompt above it? MARK RUSSINOVICH: Yeah.
+SCOTT HANSELMAN: No data to show. That's probably the wrong one. Right one below? MARK RUSSINOVICH: Yeah.
+SCOTT HANSELMAN: That's not the right one. I think it is that one.
+You have 36. Where did it get the data from?
+I want to see. It called that file, but we did not put anything in an event,
+so we need to fix that. That's cool. We do have metrics, however, so I can go and see.
+There you go. Invocations and durations of invocations. MARK RUSSINOVICH: This is really important
+to see because you want to know, especially if you're using a very powerful model that might be slow,
+you might realize I don't need that model that powerful to do this task,
+and it might be on a path that I need faster response, so I'm going to use a different model for that.
+Actually, Semantic Kernel lets you configure multiple models. SCOTT HANSELMAN: That is a great point. MARK RUSSINOVICH: Then annotate the
+kernel functions. SCOTT HANSELMAN: We should go back up to the main page where we start
+our Maui application and point out some of the configurations that we've got here,
+and here is where we set up our Semantic. Kernel. We're setting up two endpoints.
+We have "AzureOpenAIChatCompletion", and then we have this other one that's just called "OpenAIChatCompletion",
+but it's not really OpenAI. MARK RUSSINOVICH: It's just using the same API. SCOTT HANSELMAN: Look, it's actually using a local model,
+running a model on this particular port on 5272,
+and it happens to be that Phi-3, a specific Q4 mini version
+of that that's running on this machine. MARK RUSSINOVICH: This is running on DirectML with the ONNX Runtime for generative AI,
+which is being included. I think we're releasing it. We announced it yesterday, but we're releasing it,
+and this is what gives you this capability to run these models on the NPUs if you've got them on your local machine.
+SCOTT HANSELMAN: We're doing a little bit of orchestration between the work that we want the giant model in the Cloud to do and the one we want to happen locally right here.
+One of the things that I thought would be interesting was to ask it questions about the text files. Now, I could ship
+all my text files to Azure in a secure way, and I have an Azure OpenAI completion,
+but it's really overkill. I don't really need to do that to summarize this text. I've got an NPU, I've got a GPU.
+MARK RUSSINOVICH: Summarizing text files is something smaller models can do really well. Not only that, but if you had
+to ship all the files to the Cloud, that's just a lot of latency, that's bandwidth when you can just have
+a local model like Phi, really powerful one. SCOTT HANSELMAN: I've got a bunch of files,
+including some of them that are pretty good-sized. This one here is, I don't even know what this name of this file, 221.txt.
+MARK RUSSINOVICH: What is in there?. You tell me. SCOTT HANSELMAN: I know that there's stuff in there I might need for later. they're there because I might need them.
+There's a 24K file,
+big, giant Notepad file. MARK RUSSINOVICH: You don't think it's a little risky to ask for a summary of a file that you don't know. . .
+SCOTT HANSELMAN: It's totally reasonable that I have a file called C# for beginners on my desktop.
+MARK RUSSINOVICH: What about the 221 file? SCOTT HANSELMAN: I don't know. Let's find out.
+"Summarize. . ." MARK RUSSINOVICH: The summarization here is going to Phi-3.
+SCOTT HANSELMAN: ". . .221.txt on my desktop." MARK RUSSINOVICH: I don't even think you need to say that.
+SCOTT HANSELMAN: What do I need to say? MARK RUSSINOVICH: Just 221.txt. SCOTT HANSELMAN: You can just say it? MARK RUSSINOVICH: I think so. SCOTT HANSELMAN: Say the name? MARK RUSSINOVICH: It knows. No,
+say, "Summarize 221.txt." SCOTT HANSELMAN: I don't know, man. I like to be nice. I wish you'd also say please and thank you.
+No, it didn't work. See? MARK RUSSINOVICH: What? SCOTT HANSELMAN: It seems there was an issue with the file path. It might not be located directly on your desktop,
+but rather somewhere else, so I'm going to be nice. "Thanks for your effort."
+MARK RUSSINOVICH: You don't need to be polite to AI. SCOTT HANSELMAN: It never hurts karmically.
+MARK RUSSINOVICH: Yes, so the AI overloads that eventually come. Look at your Chat history.
+SCOTT HANSELMAN: I'm just saying. It's probably nice. MARK RUSSINOVICH: Scott's been nice to us.
+SCOTT HANSELMAN: You're outing yourself right here as a mean dude.
+MARK RUSSINOVICH: Only mean around you. SCOTT HANSELMAN: That's true. Is the file open?
+Is it not letting me access it because the file is actually open right now? No, I have really good karma
+at the mall, and when I go there, I get a parking spot really reliably, and I draw it directly towards being
+a good tipper and being kind to AI. I never yell at Alexa,
+or Siri, or Cortana. Just please and thank you for your time. MARK RUSSINOVICH: That's what gives you good parking. SCOTT HANSELMAN: That gives me parking spots at
+the mall reliably. Yeah. MARK RUSSINOVICH: There you go.
+Your tip. Good parking spots. SCOTT HANSELMAN: Good luck at the mall. MARK RUSSINOVICH: Be nice to Azure OpenAI.
+SCOTT HANSELMAN: Yeah. It's not finding summarize. "Can you summarize text files?"
+"I can summarize text files, but it has to be related to organizing desktop." This is really interesting.
+That's a really interesting thing. It's constraining me. It's forcing me. Let's have it list the files first.
+Let's, "list out my text files."
+It needs context. . . now there's the file. Love it. Love it.
+"Summarize" Thirty-seven of them, ironically. MARK RUSSINOVICH: The key to the missing--
+anybody that spots the missing file, what do they get?
+SCOTT HANSELMAN: They get us off stage faster. So look, this is my local file.
+It's running on a Commodore 64. This is actually a text file about how to run a Wildcat--
+MARK RUSSINOVICH: That's what that file was? SCOTT HANSELMAN: --BBS. Yeah. You might need to run a Wildcat bulletin board system. MARK RUSSINOVICH: You're just saving
+that just in case. SCOTT HANSELMAN: Yeah. I never know when I might need to spin up a new BBS
+because there's not a lot of software engineers on The Walking Dead,
+but the ones that are there are rebooting routers and setting up BBS's so we can fight the zombies. [applause]
+MARK RUSSINOVICH: I figured. You watch a lot of Fallout, don't you? SCOTT HANSELMAN: I do. I just watched Fallout. MARK RUSSINOVICH: Fallout on the brain.
+SCOTT HANSELMAN: I want to be ready for them. Cool. Look, this actually happened. This review praises
+the software's adaptability and simplicity. We feel good about Wildcat meeting my BBS needs.
+That work happened entirely locally because it was doing a summarized file. MARK RUSSINOVICH: That specified using Phi-3.
+SCOTT HANSELMAN: That was done using that. if I go over here to find the summarized file method, look at that.
+We go and we read the file in all locally. The work happened locally. We concatenated together,
+made sure that it was not empty, called the local model. MARK RUSSINOVICH: That uses Semantic Kernel.
+SCOTT HANSELMAN: Yeah. Then invoked a streaming- MARK RUSSINOVICH: This shows that you can actually you have this one model,
+the main orchestration model was GPT-4o. SCOTT HANSELMAN: Yes. MARK RUSSINOVICH: GPT-4. . . o.
+SCOTT HANSELMAN: Yeah for "o", lower-case "o". Totally a good idea. MARK RUSSINOVICH: Calling Phi-3,
+calling a function. SCOTT HANSELMAN: You're right. The giant model in the Cloud can reach in. MARK RUSSINOVICH: Call this local function,
+which ends up calling a local model. SCOTT HANSELMAN: "Can you group my text files together in a folder and move them there?"
+"Would you like to put all your text files into a folder called 'Text Files' on your desktop?" "Yes."
+It's thinking. . . Circle of patience. User consent required.
+MARK RUSSINOVICH: Wow. SCOTT HANSELMAN: We're about to move these files. Approve.
+"Looks like these files have been moved successfully, but there was an issue with a few that may have already existed in the destination."
+That's cool. We're gonna try again. MARK RUSSINOVICH: It's kind of amazing. SCOTT HANSELMAN: That's so nice. MARK RUSSINOVICH: Try again. SCOTT HANSELMAN: "Yes, go for it."
+"You're so nice." MARK RUSSINOVICH: [laughing]
+SCOTT HANSELMAN: I'm going to-- "User consent required". . . MARK RUSSINOVICH: Oh, it wants something more? SCOTT HANSELMAN: It's going nuts.
+It's moving them all. MARK RUSSINOVICH: What's your desktop look like? SCOTT HANSELMAN: My desktop? Well, this side is clear.
+[laughter] It's a process. Oh look at that! They're all. . .
+MARK RUSSINOVICH: Oh wow, there they are. SCOTT HANSELMAN: I had other files in. . . MARK RUSSINOVICH: And there's 221. SCOTT HANSELMAN: There's 221.txt. I love it.
+MARK RUSSINOVICH: Are there 36 or 37 in there? SCOTT HANSELMAN: Let's see if it moved them all. Let's find out. . .
+37 files. There is a mystery. MARK RUSSINOVICH: We didn't even really talk about why you might get a different answer.
+SCOTT HANSELMAN: Why is it not reliable every single time? MARK RUSSINOVICH: Well, these models
+are non-deterministic. They're probability-based to make them predict a next token
+which matches the tokens that it saw in its training, effectively matching those distributions,
+so it wants to have the text look something close to
+what was the highest probability of stuff that it saw. So, if it saw the same sentence over and over again, and it saw another sentence that had the same start of that,
+but with a different ending, it's much more likely to give you the ending of the one that it saw over and over again probabilistically
+because it was trained on that, but it still might have some chance of giving you that second sentence.
+And so, depending on what's in the context, depending on the sampling of picking tokens,
+which is also non-deterministic, it can end up going down different paths. SCOTT HANSELMAN: Because the things
+that I'm saying are not reliable because don't trust user data, and I'm phrasing it differently every
+time and because it's got some probability things on its side, we're both wild cards,
+we are going to get unexpected things, but you did note, though, when it was going to do something destructive. MARK RUSSINOVICH: Yeah, you got asked
+for consent. SCOTT HANSELMAN: You've got user in the loop. MARK RUSSINOVICH: This is why actually, if you asked it the total number of files on your desktop,
+we would have seen it probably give you a different answer every time because-- SCOTT HANSELMAN: If we asked it without calling the function.
+MARK RUSSINOVICH: Yeah, without calling the function, it would have given you a different answer every time. That's just because it's not good at saying this is the number of things,
+so non-deterministically, it might get it right sometimes, might get it wrong sometimes. This is why we created a deterministic function to handle that,
+but that is just inherent in the behavior of these models, is that they're a little random.
+SCOTT HANSELMAN: We built in safeties to put everything back the way it was if we don't like that. I do feel like I could imagine
+where I could do multimodal type things. I've got pictures here. I've got headshots of people from my podcast.
+I've got URLs. I'm imagining a world where I could categorize YouTube links
+by topic and have Anime here and have Fallout Fan-Fic over here.
+MARK RUSSINOVICH: I think you can use the AI to reason about the organization and make
+suggestions about it and then have helper functions for it to go and actually carry those out. I think that's the way you approach it is like,
+it can be the creative reasoner, and then you give it the arms that you want to have it
+do that. Now, one of the things. . . I forgot what I was going to say. SCOTT HANSELMAN: That was good.
+Maybe you could ask a chatbot for some creativity to get unblocked.
+You were on a roll. You was going somewhere. It was amazing. I was excited to hear what you had to say. I'm going to keep talking just to
+make you comfortable because I'm really interested in how you're going to get out of this. I know what I'm going to say. [laughter]
+MARK RUSSINOVICH: Now, I'm definitely not going to remember. SCOTT HANSELMAN: Okay so. . . what kind of--how much history should it know? What should it know about me?
+Where should I store this stuff in configuration? How should I make this an application that is responsible and trustworthy?
+MARK RUSSINOVICH: True. The Chat history that we've got here, where do you store that? It depends. SCOTT HANSELMAN: Or do you maybe
+don't store it at all? MARK RUSSINOVICH: Actually, it depends. Do you want to have the user be able to refer back to it or not? See a log of it?
+SCOTT HANSELMAN: Exactly. MARK RUSSINOVICH: Do you want to be able to load this context back in to the the assistant here?
+SCOTT HANSELMAN: Is this a long-running task that I would work on over a long period of time? What's significant about this is all of these questions that
+Mark and I are talking about aren't technical questions. They are UX questions, they're ethical questions,
+they're philosophical questions. That's important because ethics and responsibility are not built into these models.
+You said something very wise to me once, similarly to-- MARK RUSSINOVICH: Once? SCOTT HANSELMAN: --the time that I--
+It was good, though, the one time. When I said wisely, that it was not a calculator, you said to treat it like, what did you say?
+MARK RUSSINOVICH: A junior employee. SCOTT HANSELMAN: A junior employee? MARK RUSSINOVICH: An eager junior employee. SCOTT HANSELMAN: The way you treat me. MARK RUSSINOVICH: That's right. SCOTT HANSELMAN: Effectively, you said
+treat chatbot the way you treat Hanselman. MARK RUSSINOVICH: A little bit of a loose canon. SCOTT HANSELMAN: A bit of a loose canon. But you said it was an eager junior employee.
+MARK RUSSINOVICH: Because it really wants to do what you asked it to do? It has some risks in it
+in that it might get things wrong. It doesn't have practical real-world experience, so it might decide to do things that just aren't
+practical or aren't good solutions for the problem at hand. From a AI security perspective,
+like I talked about in my session yesterday, they're influencible, they're persuadable.
+Just like we told it here, only talk about desktops and do desktop things, as a junior employee,
+you might be persuaded to do things that are not within the company guidelines or within your job role.
+SCOTT HANSELMAN: Very similar to how I ended up on stage here with you. MARK RUSSINOVICH: Because I told you to be on stage. SCOTT HANSELMAN: You said it was going to
+happen and it was review time. Excellent. I was thinking
+about how we could go and improve this in the future. I can go and have pictures. I could have the work to look at the pictures and things that I care about,
+family members, and places that are important to me could be categorized. MARK RUSSINOVICH: You said family members,
+and then put up. . . SCOTT HANSELMAN: And places that are important to me? MARK RUSSINOVICH: But, that's what you put up. SCOTT HANSELMAN: Yeah. I just wanted to show people where my priorities are.
+There's just important things that are important that one needs to focus on when they are focusing on these things.
+That could all happen locally. All that information could happen locally if I wanted it to,
+but we don't have time to do that right now because I'm realizing that it's only a 45-minute talk and in the case here,
+Oh, look at that. MARK RUSSINOVICH: What was that? One of the files on your desktop?
+SCOTT HANSELMAN: That's just a file on my desktop. You just never know when you might need Michael Scott talking about Beyonce and that was fair use,
+so don't try to pull that out of the stream. I feel like though, the only way to solve this
+because I'm noticing we have actually multiple monitors here. There's more icons over here. I don't know if you saw these. It's actually
+overflowed onto the other monitor. If we go and say view, sort icons,
+and then I go view auto arrange, I'm going to bring these icons over.
+MARK RUSSINOVICH: That's without your text files. SCOTT HANSELMAN: Yeah. We've already done. We've moved 37 text files, but it's going to take a while.
+Let me say, "Move all of my files into a folder called 'Old Desktop'."
+[laughter]
+It's so tidy. [applause]
+MARK RUSSINOVICH: You know what? I'm happy with that. SCOTT HANSELMAN: Alright, goodbye. [laughter]
+That's pretty cool stuff. We learned a ton about Semantic Kernel about how you can give arms and
+legs to the head in the jar that is your AI systems. You can do local work. You can do work in the Cloud.
+They can work together. Semantic Kernel makes it happen, and I know that you're going to learn a lot more from the other talks that you're
+going to go to at Build. Thanks for hanging out, and I hope that you had fun. [applause]
+[cheers]
