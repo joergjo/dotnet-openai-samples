@@ -22,12 +22,12 @@ var configuration = builder.Build();
 var endpoint = configuration["OpenAI:Endpoint"];
 var apiKey = configuration["OpenAI:ApiKey"];
 var deployment = configuration["OpenAI:Deployment:Default"];
-var deploymentVision = configuration["OpenAI:Deployment:Vision"];
+var visionDeployment = configuration["OpenAI:Deployment:Vision"];
 
 if (endpoint is not { Length: > 0 } ||
     apiKey is not { Length: > 0 } ||
     deployment is not { Length: > 0 } ||
-    deploymentVision is not { Length: > 0 })
+    visionDeployment is not { Length: > 0 })
 {
     Console.WriteLine(
         """
@@ -58,6 +58,8 @@ Print(result.Prompt, result.Response);
 streamingResult = Scenarios.SummarizeTranscript(chatClient, "./sampledata/brk255.txt");
 Stream(streamingResult.Prompt, streamingResult.Updates);
 
-chatClient = client.GetChatClient(deploymentVision);
-result = Scenarios.SummarizePicture(chatClient, "./sampledata/F-16.jpg");
+chatClient = client.GetChatClient(visionDeployment);
+result = Scenarios.SummarizePicture(chatClient, "./sampledata/General_Dynamic_F-16_USAF.jpg");
+Print(result.Prompt, result.Response);
+result = Scenarios.SummarizePicture(chatClient, new Uri("https://upload.wikimedia.org/wikipedia/commons/f/f8/General_Dynamic_F-16_USAF.jpg"));
 Print(result.Prompt, result.Response);
