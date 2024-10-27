@@ -1,11 +1,11 @@
-using OpenAI.Chat;
+﻿using OpenAI.Chat;
 using Spectre.Console;
 
-namespace OpenAI.Samples.Chat;
+namespace OpenAI.Samples.Terminal;
 
 public static class Output
 {
-    public static void UserPrompt(string prompt)
+    private static void UserPrompt(string prompt)
     {
         var rule = new Rule("[green]User Prompt[/]");
         AnsiConsole.Write(rule);
@@ -14,8 +14,9 @@ public static class Output
         AnsiConsole.WriteLine();
     }
     
-    public static void StreamResponse(IEnumerable<StreamingChatCompletionUpdate?> updates)
+    public static void Stream(string prompt, IEnumerable<StreamingChatCompletionUpdate?> updates)
     {
+        UserPrompt(prompt);
         var rule = new Rule("[blue]Response[/]");
         AnsiConsole.Write(rule);
         AnsiConsole.WriteLine();
@@ -27,6 +28,16 @@ public static class Output
                 AnsiConsole.Markup("[blue]{0}[/]", message.Text);
             }
         }
+        AnsiConsole.WriteLine();
+    }
+    
+    public static void Print(string prompt, string response)
+    {
+        UserPrompt(prompt);
+        var rule = new Rule("[blue]Response[/]");
+        AnsiConsole.Write(rule);
+        AnsiConsole.WriteLine();
+        AnsiConsole.Markup("[blue]{0}[/]", response);
         AnsiConsole.WriteLine();
     }
 }

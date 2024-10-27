@@ -26,4 +26,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OpenAI.Samples.Terminal\OpenAI.Samples.Terminal.csproj" />
+    </ItemGroup>
+
 </Project>

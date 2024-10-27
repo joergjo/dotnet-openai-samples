@@ -485,3 +485,9 @@ $RECYCLE.BIN/
 
 # Direnv
 .envrc
+
+# HTTP client
+*.private.env.json
+
+# Media files
+*.mp3

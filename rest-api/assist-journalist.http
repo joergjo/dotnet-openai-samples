@@ -1,0 +1,40 @@
+### Summarization samples
+POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.deployment}}/chat/completions?
+    api-version=2024-06-01
+api-key: {{azure.openai.apiKey}}
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an assistant for journalists. Your task is to write articles, based on the FACTS that are given to you. You should respect the instructions: the TONE, the LENGTH, and the STYLE"
+    },
+    {
+      "role": "user",
+      "content": "FACTS: The sky is blue. The grass is green. TONE: informal. LENGTH: 100 words. STYLE: blogpost." 
+    }
+  ]
+}
+
+###
+
+POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.deployment}}/chat/completions?
+    api-version=2024-06-01
+api-key: {{azure.openai.apiKey}}
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an assistant for journalists. Your task is to write articles, based on the FACTS that are given to you. You should respect the instructions: the TONE, the LENGTH, and the STYLE"
+    },
+    {
+      "role": "user",
+      "content": "FACTS: A book on ChatGPT has been published last week. The title is Developing Apps with GPT-4 and ChatGPT. The publisher is O'Reilly. TONE: excited. LENGTH: 50 words. STYLE: news flash."
+    }
+  ]
+}
+
+###

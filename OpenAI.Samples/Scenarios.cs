@@ -1,7 +1,8 @@
 using Emgu.CV;
+using OpenAI.Audio;
 using OpenAI.Chat;
 
-namespace OpenAI.Samples.Chat;
+namespace OpenAI.Samples;
 
 public static class Scenarios
 {
@@ -46,7 +47,7 @@ public static class Scenarios
         return (userPrompt, completion.Content[0].Text);
     }
 
-    public static void SummarizeTranscript(ChatClient chatClient, string srcFile)
+    public static (string, IEnumerable<StreamingChatCompletionUpdate?>) SummarizeTranscript(ChatClient chatClient, string srcFile)
     {
         var transcript = File.ReadAllText(srcFile);
         var userPrompt = $"""
@@ -59,8 +60,7 @@ public static class Scenarios
             new UserChatMessage(userPrompt),
         ]);
 
-        Output.UserPrompt($"Please summarize the following video transcript... (see {srcFile})");
-        Output.StreamResponse(updates);
+        return ($"Please summarize the following video transcript... (see {srcFile})", updates);
     }
 
 //     public static (string, string) SummarizeVideo(ChatClient chatClient, string srcFile, int start = 0, int count = 50)
@@ -127,5 +127,13 @@ public static class Scenarios
             if (!success) throw new Exception("Failed to write frame"); 
             Console.WriteLine($"Saved {frameFile}");
         }
+    }
+    
+    public static (string, string) TextToSpeech(AudioClient client, string text, string file)
+    {
+        var result = client.GenerateSpeech(text, GeneratedSpeechVoice.Onyx);
+        using var fileStream = File.OpenWrite(file);
+        result.Value.ToStream().CopyTo(fileStream);
+        return (text, $"Audio saved to {file}");
     }
 }

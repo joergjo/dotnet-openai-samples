@@ -1,0 +1,26 @@
+### Summarize image by URL
+POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.visionDeployment}}/chat/completions?
+    api-version=2024-06-01
+api-key: {{azure.openai.apiKey}}
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Summarize this image"
+        },
+        {
+          "type": "image_url",
+          "image_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/General_Dynamic_F-16_USAF.jpg"
+        }
+      ]
+    }
+  ],
+  "max_tokens": 4096
+}
+
+###
