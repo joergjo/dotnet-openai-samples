@@ -55,16 +55,16 @@ result = Scenarios.AssistJournalist(chatClient, "excited", 50, "news flash",
     "The title is Developing Apps with GPT-4 and ChatGPT", "The publisher is O'Reilly.");
 Print(result.Prompt, result.Response);
 
-streamingResult = Scenarios.SummarizeTranscript(chatClient, "./sampledata/brk255.txt");
+streamingResult = Scenarios.SummarizeTranscript(chatClient, "../assets/brk255.txt");
 Stream(streamingResult.Prompt, streamingResult.Updates);
 
 chatClient = client.GetChatClient(visionDeployment);
-result = Scenarios.SummarizePicture(chatClient, "./sampledata/General_Dynamic_F-16_USAF.jpg");
+result = Scenarios.SummarizePicture(chatClient, "../assets/General_Dynamic_F-16_USAF.jpg");
 Print(result.Prompt, result.Response);
 result = Scenarios.SummarizePicture(chatClient, new Uri("https://upload.wikimedia.org/wikipedia/commons/f/f8/General_Dynamic_F-16_USAF.jpg"));
 Print(result.Prompt, result.Response);
 
 var audioClient = client.GetAudioClient("whisper");
-result = Scenarios.SpeechToText(audioClient, "./openai.mp3");
+result = Scenarios.SpeechToText(audioClient, "../assets/openai.mp3");
 Print(result.Prompt, result.Response);
 

@@ -99,8 +99,7 @@ public static class Scenarios
         };
         AudioTranscription result = client.TranscribeAudio(path, options);
         var fileName = Path.GetFileNameWithoutExtension(path);
-        var directory = Path.GetDirectoryName(path);
-        var outputPath = Path.Combine(directory ?? ".", $"{fileName}-transcription.txt");
+        var outputPath = Path.Combine(".", $"{fileName}-transcription.txt");
         using var fileStream = File.OpenWrite(outputPath);
         var data = BinaryData.FromString(result.Text);
         fileStream.Write(data);
