@@ -11,9 +11,9 @@ public static class Scenarios
             ResponseFormat = GeneratedSpeechFormat.Mp3,
             SpeedRatio = 1.0f
         };
-        var result = client.GenerateSpeech(text, GeneratedSpeechVoice.Alloy, options);
+        BinaryData result = client.GenerateSpeech(text, GeneratedSpeechVoice.Alloy, options);
         using var fileStream = File.OpenWrite(file);
-        result.Value.ToStream().CopyTo(fileStream);
+        fileStream.Write(result);
         return (text, $"Audio saved to {file}");
     }
 }
