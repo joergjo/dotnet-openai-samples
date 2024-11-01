@@ -488,6 +488,3 @@ $RECYCLE.BIN/
 
 # HTTP client
 *.private.env.json
-
-# Media files
-*.mp3

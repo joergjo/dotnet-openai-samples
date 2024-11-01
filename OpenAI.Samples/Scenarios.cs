@@ -90,6 +90,22 @@ public static class Scenarios
             new ChatCompletionOptions { MaxOutputTokenCount = 4096 });
         return (userPrompt, completion.Content[0].Text);
     }
+    
+    public static (string, string) SpeechToText(AudioClient client, string path)
+    {
+        var options = new AudioTranscriptionOptions
+        {
+            ResponseFormat = AudioTranscriptionFormat.Text
+        };
+        AudioTranscription result = client.TranscribeAudio(path, options);
+        var fileName = Path.GetFileNameWithoutExtension(path);
+        var directory = Path.GetDirectoryName(path);
+        var outputPath = Path.Combine(directory ?? ".", $"{fileName}-transcription.txt");
+        using var fileStream = File.OpenWrite(outputPath);
+        var data = BinaryData.FromString(result.Text);
+        fileStream.Write(data);
+        return (path, $"Transcription saved to {outputPath}");
+    }
 
     public static (string, string) SummarizeVideo(ChatClient chatClient, string srcFile, int start = 0, int count = 50)
     {

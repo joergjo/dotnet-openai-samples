@@ -41,7 +41,7 @@ var client = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKe
 var chatClient = client.GetChatClient(deployment);
 
 ScenarioResult result;
-StreamingScenarioResult streamingResult; 
+StreamingScenarioResult streamingResult;
 
 result = Scenarios.TalkLikeAPirate(chatClient);
 Print(result.Prompt, result.Response);
@@ -63,3 +63,8 @@ result = Scenarios.SummarizePicture(chatClient, "./sampledata/General_Dynamic_F-
 Print(result.Prompt, result.Response);
 result = Scenarios.SummarizePicture(chatClient, new Uri("https://upload.wikimedia.org/wikipedia/commons/f/f8/General_Dynamic_F-16_USAF.jpg"));
 Print(result.Prompt, result.Response);
+
+var audioClient = client.GetAudioClient("whisper");
+result = Scenarios.SpeechToText(audioClient, "./openai.mp3");
+Print(result.Prompt, result.Response);
+
