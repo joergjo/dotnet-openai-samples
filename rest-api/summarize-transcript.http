@@ -1,0 +1,8 @@
+### Summarize video transcript
+POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.deployment}}/chat/completions?
+    api-version=2024-06-01
+api-key: {{azure.openai.apiKey}}
+Content-Type: application/json
+
+< ../assets/brk255.json
+###
