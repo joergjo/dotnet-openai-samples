@@ -23,25 +23,36 @@ var endpoint = configuration["OpenAI:Endpoint"];
 var apiKey = configuration["OpenAI:ApiKey"];
 var deployment = configuration["OpenAI:Deployment:Default"];
 var visionDeployment = configuration["OpenAI:Deployment:Vision"];
+var instructDeployment = configuration["OpenAI:Deployment:Instruct"];
 
 if (endpoint is not { Length: > 0 } ||
     apiKey is not { Length: > 0 } ||
     deployment is not { Length: > 0 } ||
-    visionDeployment is not { Length: > 0 })
+    visionDeployment is not { Length: > 0 } ||
+    instructDeployment is not { Length: > 0 })
 {
     Console.WriteLine(
         """
-        Please provide OpenAI:Endpoint, OpenAI:ApiKey, OpenAI:Deployment:Default, and OpenAI:Deployment:Vision 
-        in appsettings.json, user secrets, environment variables, or command line arguments.
+        Please provide OpenAI:Endpoint, OpenAI:ApiKey, OpenAI:Deployment:Default, OpenAI:Deployment:Instruct,
+        and OpenAI:Deployment:Vision in appsettings.json, user secrets, environment variables, or command line 
+        arguments.
         """);
     return;
 }
 
 var client = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKey));
 var chatClient = client.GetChatClient(deployment);
+var instructClient = client.GetChatClient(instructDeployment);
 
 ScenarioResult result;
 StreamingScenarioResult streamingResult;
+
+result = Scenarios.ImproveUserPrompt(
+    instructClient,
+    "Give me a suggestion for family vacation in Scotland");
+Print(result.Prompt, result.Response);
+
+Environment.Exit(0);
 
 result = Scenarios.TalkLikeAPirate(chatClient);
 Print(result.Prompt, result.Response);

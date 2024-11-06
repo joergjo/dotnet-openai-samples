@@ -106,6 +106,14 @@ public static class Scenarios
         return (path, $"Transcription saved to {outputPath}");
     }
 
+    public static (string, string) ImproveUserPrompt(ChatClient chatClient, string prompt)
+    {
+        var promptEngineering = new PromptEngineering(chatClient);
+        var refinedPrompt = promptEngineering.Refine(prompt, maxIterations: 3);
+        ChatCompletion completion = chatClient.CompleteChat([new UserChatMessage(refinedPrompt)]);
+        return (refinedPrompt, completion.Content[0].Text);
+    }
+
     public static (string, string) SummarizeVideo(ChatClient chatClient, string srcFile, int start = 0, int count = 50)
     {
         var frame = new Mat();
