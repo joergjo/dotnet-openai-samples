@@ -1,6 +1,8 @@
-POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.whisperDeployment}}/audio/transcriptions?api-version=2024-06-01
+### Transcribe audio file
+
+POST https://{{endpoint}}/openai/deployments/{{whisperDeployment}}/audio/transcriptions?api-version=2024-06-01
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-api-key: {{azure.openai.apiKey}}
+api-key: {{apiKey}}
 
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="openai.mp3"

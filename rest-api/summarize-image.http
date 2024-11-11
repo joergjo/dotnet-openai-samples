@@ -1,7 +1,6 @@
 ### Summarize image by URL
-POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.visionDeployment}}/chat/completions?
-    api-version=2024-06-01
-api-key: {{azure.openai.apiKey}}
+POST https://{{endpoint}}/openai/deployments/{{visionDeployment}}/chat/completions?api-version=2024-06-01
+api-key: {{apiKey}}
 Content-Type: application/json
 
 {

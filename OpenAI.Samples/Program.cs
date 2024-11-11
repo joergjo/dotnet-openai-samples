@@ -47,13 +47,6 @@ var instructClient = client.GetChatClient(instructDeployment);
 ScenarioResult result;
 StreamingScenarioResult streamingResult;
 
-result = Scenarios.ImproveUserPrompt(
-    instructClient,
-    "Give me a suggestion for family vacation in Scotland");
-Print(result.Prompt, result.Response);
-
-Environment.Exit(0);
-
 result = Scenarios.TalkLikeAPirate(chatClient);
 Print(result.Prompt, result.Response);
 
@@ -79,3 +72,7 @@ var audioClient = client.GetAudioClient("whisper");
 result = Scenarios.SpeechToText(audioClient, "../assets/openai.mp3");
 Print(result.Prompt, result.Response);
 
+result = Scenarios.ImproveUserPrompt(
+    instructClient,
+    "Give me a suggestion for family vacation in Scotland");
+Print(result.Prompt, result.Response);

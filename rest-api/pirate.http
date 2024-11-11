@@ -1,7 +1,6 @@
 ### Talk like a pirate
-POST https://{{azure.openai.endpoint}}/openai/deployments/{{azure.openai.deployment}}/chat/completions?
-    api-version=2024-06-01
-api-key: {{azure.openai.apiKey}}
+POST https://{{endpoint}}/openai/deployments/{{deployment}}/chat/completions?api-version=2024-06-01
+api-key: {{apiKey}}
 Content-Type: application/json
 
 {

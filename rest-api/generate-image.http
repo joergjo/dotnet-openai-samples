@@ -1,0 +1,13 @@
+### Generate an image
+
+POST https://{{endpoint}}/openai/deployments/{{dalleDeployment}}/images/generations?api-version=2024-10-21
+api-key: {{apiKey}}
+Content-Type: application/json
+
+{
+    "prompt": "A cat in the style of Monet.",
+    "style": "natural",
+    "quality": "standard"
+}
+
+###
