@@ -10,7 +10,7 @@ using StreamingScenarioResult = (string Prompt, System.Collections.Generic.IEnum
 var builder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddUserSecrets<Program>()
+    .AddUserSecrets<Program>(optional: true)
     .AddEnvironmentVariables()
     .AddCommandLine(args);
 
@@ -40,6 +40,9 @@ var client = new AzureOpenAIClient(new Uri(endpoint), new ApiKeyCredential(apiKe
 var audioClient = client.GetAudioClient(deploymentTts);
 
 ScenarioResult result;
+
+result = await Scenarios.AssistZeldaPlayer(client, deployment, "What is Link's traditional outfit color?");
+Print(result.Prompt, result.Response);
 
 const string text = """
                     OpenAI is an American artificial intelligence (AI) research organization founded in December 2015 
