@@ -112,6 +112,12 @@ public static class Scenarios
         ChatCompletion completion = chatClient.CompleteChat([new UserChatMessage(refinedPrompt)]);
         return (refinedPrompt, completion.Content[0].Text);
     }
+    
+    public static (string, string) TellAJoke(ChatClient chatClient)
+    {
+        var jokeFunction = new FunctionCalling(chatClient);
+        return jokeFunction.TellJoke();
+    }
 
     // public static (string, string) SummarizeVideo(ChatClient chatClient, string srcFile, int start = 0, int count = 50)
     // {

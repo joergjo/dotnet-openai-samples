@@ -47,6 +47,9 @@ var instructClient = client.GetChatClient(instructDeployment);
 ScenarioResult result;
 StreamingScenarioResult streamingResult;
 
+result = Scenarios.TellAJoke(chatClient);
+Print(result.Prompt, result.Response);
+
 result = Scenarios.TalkLikeAPirate(chatClient);
 Print(result.Prompt, result.Response);
 
