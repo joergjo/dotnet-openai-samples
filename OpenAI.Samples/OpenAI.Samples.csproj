@@ -14,7 +14,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.1" />
-        <PackageReference Include="Spectre.Console" Version="0.50.0" />
     </ItemGroup>
 
     <ItemGroup>
