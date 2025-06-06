@@ -13,7 +13,7 @@ public static class Output
         AnsiConsole.Markup("[green]{0}[/]", prompt);
         AnsiConsole.WriteLine();
     }
-    
+
     public static void Stream(string prompt, IEnumerable<StreamingChatCompletionUpdate?> updates)
     {
         UserPrompt(prompt);
@@ -30,7 +30,7 @@ public static class Output
         }
         AnsiConsole.WriteLine();
     }
-    
+
     public static void Print(string prompt, string response)
     {
         UserPrompt(prompt);
@@ -39,5 +39,10 @@ public static class Output
         AnsiConsole.WriteLine();
         AnsiConsole.Markup("[blue]{0}[/]", response);
         AnsiConsole.WriteLine();
+    }
+    
+    public static void Info(string message)
+    {
+        AnsiConsole.MarkupLine("[yellow]{0}[/]", message);
     }
 }
