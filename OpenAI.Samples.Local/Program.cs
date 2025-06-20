@@ -16,10 +16,10 @@ var builder = new ConfigurationBuilder()
 
 var configuration = builder.Build();
 
-var modelAlias = configuration["FoundryLocal:ModelAlias"] ?? "phi-3.5-mini";
+var modelAlias = configuration["FoundryLocal:ModelAlias"] ?? "qwen2.5-1.5b";
 var manager = await FoundryLocalManager.StartModelAsync(aliasOrModelId: modelAlias);
 
-var model = await manager.GetModelInfoAsync(aliasorModelId: modelAlias);
+var model = await manager.GetModelInfoAsync(aliasOrModelId: modelAlias);
 var key = new ApiKeyCredential(manager.ApiKey);
 var client = new OpenAIClient(key, new OpenAIClientOptions
 {
