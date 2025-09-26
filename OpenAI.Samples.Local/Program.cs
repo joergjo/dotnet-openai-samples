@@ -5,6 +5,7 @@ using OpenAI;
 using static OpenAI.Samples.Terminal.Output;
 using ScenarioResult = (string Prompt, string Response);
 using StreamingScenarioResult = (string Prompt, System.Collections.Generic.IEnumerable<OpenAI.Chat.StreamingChatCompletionUpdate?> Updates);
+// ReSharper disable JoinDeclarationAndInitializer
 
 
 var builder = new ConfigurationBuilder()
